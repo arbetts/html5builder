@@ -23,7 +23,7 @@ public class HTMLBuilderTest extends TestCase {
 		);
 
 		try (PrintWriter printWriter = new PrintWriter(System.out)) {
-			htmlBuilder.html(printWriter);
+			htmlBuilder.html(printWriter::print);
 		}
 	}
 

@@ -1,8 +1,8 @@
 package com.cloud.application.design.html;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author andrewbetts
@@ -19,21 +19,17 @@ public abstract class BaseHTMLElement<T extends HTMLElement<T>>
 	}
 
 	@Override
-	public void open(PrintWriter printWriter) {
+	public Runnable render(Consumer<String> writer) {
 		if (attributes.isEmpty()) {
-			printWriter.println(getTagOpen());
+			writer.accept(getTagOpen());
 		}
 		else {
-			printWriter.print(getTagAndAttributeOpen());
-			attributes(printWriter);
-			printWriter.print(_TAG_ATTRIBUTE_CLOSE);
-			printWriter.println();
+			writer.accept(getTagAndAttributeOpen());
+			attributes(writer);
+			writer.accept(_TAG_ATTRIBUTE_CLOSE);
 		}
-	}
 
-	@Override
-	public void close(PrintWriter printWriter) {
-		printWriter.println(getTagClose());
+		return () -> writer.accept(getTagClose());
 	}
 
 	@Override
@@ -52,14 +48,14 @@ public abstract class BaseHTMLElement<T extends HTMLElement<T>>
 	abstract String getTagAndAttributeOpen();
 	abstract String getTagClose();
 
-	void attributes(PrintWriter printWriter) {
+	void attributes(Consumer<String> writer) {
 		for (HTMLAttribute attribute : attributes) {
-			printWriter.print(" ");
-			printWriter.print(attribute.name);
-			printWriter.print(_ATTRIBUTE_OPEN);
-			printWriter.print(attribute.value);
-			printWriter.print(_ATTRIBUTE_CLOSE);
-			printWriter.print(" ");
+			writer.accept(" ");
+			writer.accept(attribute.name);
+			writer.accept(_ATTRIBUTE_OPEN);
+			writer.accept(attribute.value);
+			writer.accept(_ATTRIBUTE_CLOSE);
+			writer.accept(" ");
 		}
 	}
 

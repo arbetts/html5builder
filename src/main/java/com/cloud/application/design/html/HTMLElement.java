@@ -1,7 +1,7 @@
 package com.cloud.application.design.html;
 
-import java.io.PrintWriter;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author andrewbetts
@@ -13,9 +13,7 @@ public interface HTMLElement<T extends HTMLElement> {
 	valid elements https://www.w3schools.com/tags/ref_html_dtd.asp
 	 */
 
-	void open(PrintWriter printWriter);
-
-	void close(PrintWriter printWriter);
+	Runnable render(Consumer<String> writer);
 
 	T attribute(String attr, String value);
 

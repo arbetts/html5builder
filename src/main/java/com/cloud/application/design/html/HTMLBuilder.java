@@ -3,6 +3,7 @@ package com.cloud.application.design.html;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author arbetts
@@ -13,9 +14,9 @@ public class HTMLBuilder {
 		elements = new ArrayList<>();
 	}
 
-	public void html(PrintWriter printWriter) {
+	public void html(Consumer<String> writer) {
 		for (HTMLElement<?> element : elements) {
-			visit(printWriter, element);
+			visit(writer, element);
 		}
 	}
 
@@ -25,14 +26,14 @@ public class HTMLBuilder {
 		return this;
 	}
 
-	void visit(PrintWriter printWriter, HTMLElement<?> element) {
-		element.open(printWriter);
+	void visit(Consumer<String> writer, HTMLElement<?> element) {
+		Runnable callBack = element.render(writer);
 
 		for (HTMLElement<?> child : element.children()) {
-			visit(printWriter, child);
+			visit(writer, child);
 		}
 
-		element.close(printWriter);
+		callBack.run();
 	}
 
 	private List<HTMLElement> elements;
