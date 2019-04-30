@@ -13,10 +13,13 @@ public interface HTMLElement<T extends HTMLElement> {
 	valid elements https://www.w3schools.com/tags/ref_html_dtd.asp
 	 */
 
-	Runnable render(Consumer<String> writer);
-
 	T attribute(String attr, String value);
 
 	List<HTMLElement<?>> children();
+
+	List<HTMLAttribute> getAttributes();
+	String getTagOpen();
+	String getTagAndAttributeOpen();
+	String getTagClose();
 
 }

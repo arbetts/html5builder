@@ -1,6 +1,5 @@
 package com.cloud.application.design.html;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -27,14 +26,36 @@ public class HTMLBuilder {
 	}
 
 	void visit(Consumer<String> writer, HTMLElement<?> element) {
-		Runnable callBack = element.render(writer);
+		List<HTMLAttribute> attributes = element.getAttributes();
+
+		if (attributes.isEmpty()) {
+			writer.accept(element.getTagOpen());
+		}
+		else {
+			writer.accept(element.getTagAndAttributeOpen());
+
+			for (HTMLAttribute attribute : attributes) {
+				writer.accept(" ");
+				writer.accept(attribute.name);
+				writer.accept(_ATTRIBUTE_OPEN);
+				writer.accept(attribute.value);
+				writer.accept(_ATTRIBUTE_CLOSE);
+				writer.accept(" ");
+			}
+
+			writer.accept(_TAG_ATTRIBUTE_CLOSE);
+		}
 
 		for (HTMLElement<?> child : element.children()) {
 			visit(writer, child);
 		}
 
-		callBack.run();
+		writer.accept(element.getTagClose());
 	}
+
+	private static final String _TAG_ATTRIBUTE_CLOSE = ">";
+	private static final String _ATTRIBUTE_OPEN = "='";
+	private static final String _ATTRIBUTE_CLOSE = "'";
 
 	private List<HTMLElement> elements;
 
