@@ -25,7 +25,16 @@ public abstract class BaseHTMLElement<T extends HTMLElement<T>>
 		}
 		else {
 			writer.accept(getTagAndAttributeOpen());
-			attributes(writer);
+
+			for (HTMLAttribute attribute : attributes) {
+				writer.accept(" ");
+				writer.accept(attribute.name);
+				writer.accept(_ATTRIBUTE_OPEN);
+				writer.accept(attribute.value);
+				writer.accept(_ATTRIBUTE_CLOSE);
+				writer.accept(" ");
+			}
+
 			writer.accept(_TAG_ATTRIBUTE_CLOSE);
 		}
 
@@ -47,17 +56,6 @@ public abstract class BaseHTMLElement<T extends HTMLElement<T>>
 	abstract String getTagOpen();
 	abstract String getTagAndAttributeOpen();
 	abstract String getTagClose();
-
-	void attributes(Consumer<String> writer) {
-		for (HTMLAttribute attribute : attributes) {
-			writer.accept(" ");
-			writer.accept(attribute.name);
-			writer.accept(_ATTRIBUTE_OPEN);
-			writer.accept(attribute.value);
-			writer.accept(_ATTRIBUTE_CLOSE);
-			writer.accept(" ");
-		}
-	}
 
 	private List<HTMLAttribute> attributes = new ArrayList<>();
 	private List<HTMLElement<?>> children = new ArrayList<>();
