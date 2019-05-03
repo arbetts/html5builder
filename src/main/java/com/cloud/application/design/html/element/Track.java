@@ -1,7 +1,15 @@
 package com.cloud.application.design.html.element;
 
+import com.cloud.application.design.html.element.base.Element;
+import com.cloud.application.design.html.element.base.ElementDescriptor;
+
 /**
  * @author Preston Crary
  */
-public interface Track {
+public interface Track extends Element {
+
+	default ElementDescriptor elementDescriptor() {
+		return ElementDescriptor.track;
+	}
+
 }

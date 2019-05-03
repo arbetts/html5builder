@@ -1,9 +1,16 @@
 package com.cloud.application.design.html.element;
 
+import com.cloud.application.design.html.element.base.Element;
+import com.cloud.application.design.html.element.base.ElementDescriptor;
 import com.cloud.application.design.html.element.base.Embedded;
 
 /**
  * @author Preston Crary
  */
-public interface Svg extends Embedded {
+public interface Svg extends Element, Embedded {
+
+	default ElementDescriptor elementDescriptor() {
+		return ElementDescriptor.svg;
+	}
+
 }

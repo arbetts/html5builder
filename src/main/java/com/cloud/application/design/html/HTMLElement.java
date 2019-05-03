@@ -1,13 +1,14 @@
 package com.cloud.application.design.html;
 
+import com.cloud.application.design.html.element.base.Element;
+
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * @author andrewbetts
  * @param <T>
  */
-public interface HTMLElement<T extends HTMLElement> {
+public interface HTMLElement<T extends HTMLElement> extends Element {
 
 	/*
 	valid elements https://www.w3schools.com/tags/ref_html_dtd.asp
@@ -18,8 +19,5 @@ public interface HTMLElement<T extends HTMLElement> {
 	List<HTMLElement<?>> children();
 
 	List<HTMLAttribute> getAttributes();
-	String getTagOpen();
-	String getTagAndAttributeOpen();
-	String getTagClose();
 
 }

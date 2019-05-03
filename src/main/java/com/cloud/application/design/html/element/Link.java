@@ -1,10 +1,17 @@
 package com.cloud.application.design.html.element;
 
+import com.cloud.application.design.html.element.base.Element;
+import com.cloud.application.design.html.element.base.ElementDescriptor;
 import com.cloud.application.design.html.element.base.Metadata;
 import com.cloud.application.design.html.element.base.Phrasing;
 
 /**
  * @author Preston Crary
  */
-public interface Link extends Metadata, Phrasing {
+public interface Link extends Element, Metadata, Phrasing {
+
+	default ElementDescriptor elementDescriptor() {
+		return ElementDescriptor.link;
+	}
+
 }
